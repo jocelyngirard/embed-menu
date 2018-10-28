@@ -1,6 +1,6 @@
 #include "CLIMenuInteractor.h"
 #include "CLIMenuOutput.h"
-#include "../../src/menu/Menu.h"
+#include "../../src/Menu.h"
 
 int main();
 
