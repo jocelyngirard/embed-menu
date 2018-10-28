@@ -1,25 +1,33 @@
 #include <SPI.h>
 #include <Wire.h>
+#include <JC_Button.h>
 
 #include "GFXMenuInteractor.h"
 
-GFXMenuInteractor::GFXMenuInteractor() {
-  pinMode(BUTTON_A, INPUT_PULLUP);
-  pinMode(BUTTON_B, INPUT_PULLUP);
-  pinMode(BUTTON_C, INPUT_PULLUP);
+Button previousButton(BUTTON_A);
+Button selectButton(BUTTON_B);
+Button nextButton(BUTTON_C);
+
+GFXMenuInteractor::GFXMenuInteractor(){
+  previousButton.begin();
+  nextButton.begin();
+  selectButton.begin();
 }
 
 GFXMenuInteractor::~GFXMenuInteractor() = default;
 
 Input GFXMenuInteractor::waitInput() {
-  if (!digitalRead(BUTTON_A)){
+  previousButton.read();
+  nextButton.read();
+  selectButton.read();
+
+  if (previousButton.wasReleased() == true) {
     return Up;
-  }
-  if (!digitalRead(BUTTON_B)){
-    return Select;
-  }
-  if (!digitalRead(BUTTON_C)){
+  } else if (nextButton.wasReleased() == true) {
     return Down;
+  } else if (selectButton.wasReleased() == true) {
+    return Select;
+  } else {
+    return Other;
   }
-  return Other;
 }
