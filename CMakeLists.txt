@@ -7,10 +7,10 @@ set(CMAKE_CXX_FLAGS "-lncurses")
 add_executable(
         menu
 
-        src/Menu.cpp
-        src/MenuItem.h
-        src/io/MenuOutput.h
-        src/io/MenuInteractor.h
+        Menu.cpp
+        MenuItem.h
+        io/MenuOutput.h
+        io/MenuInteractor.h
 
         examples/cli/main.cpp
         examples/cli/CLIMenuInteractor.cpp

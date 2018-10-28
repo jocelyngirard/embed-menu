@@ -5,7 +5,7 @@
 #ifndef MENU_INPUT_H
 #define MENU_INPUT_H
 
-#include "../../src/io/MenuInteractor.h"
+#include "../../io/MenuInteractor.h"
 
 class CLIMenuInteractor : public MenuInteractor {
 

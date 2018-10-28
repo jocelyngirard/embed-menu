@@ -5,7 +5,7 @@
 #ifndef MENU_SCREEN_H
 #define MENU_SCREEN_H
 
-#include "../../src/io/MenuOutput.h"
+#include "../../io/MenuOutput.h"
 
 class CLIMenuOutput : public MenuOutput {
 
