@@ -4,6 +4,10 @@
 
 #include "Menu.h"
 
+Menu::Menu(const char *name) {
+    this->name = name;
+}
+
 void Menu::add(const char *name) {
     auto *new_node = new MenuItem;// (struct MenuItem *) malloc(sizeof(struct MenuItem));
 
@@ -64,5 +68,7 @@ void Menu::interact(MenuInteractor *interactor) {
 }
 
 void Menu::display(MenuOutput *output) {
+    output->clearOutput();
+    output->drawMenuTitle(this->name);
     output->drawMenuItem(this->getCurrent());
 }

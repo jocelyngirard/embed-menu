@@ -12,10 +12,14 @@
 class Menu {
 
 private:
+    const char *name;
     struct MenuItem *menuItems = nullptr;
     MenuItem *current = nullptr;
 
 public:
+
+    explicit Menu(const char *name);
+
     void add(const char *name);
 
     void interact(MenuInteractor *interactor);

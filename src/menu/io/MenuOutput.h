@@ -13,11 +13,14 @@ class MenuOutput {
 public:
     virtual ~MenuOutput() = default;
 
-    virtual int getRows() = 0;
-    virtual int getColumns() = 0;
+    virtual int getRows() const = 0;
+    virtual int getColumns() const = 0;
+
+    virtual void clearOutput() = 0;
 
     virtual void drawMenuTitle(const char* menuTitle) = 0;
     virtual void drawMenuItem(MenuItem* menuItem) = 0;
 };
+
 
 #endif //MENU_MENUOUTPUT_H

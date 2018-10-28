@@ -10,25 +10,27 @@
 class CLIMenuOutput : public MenuOutput {
 
 private:
+    int rowOffset = 1;
+    int columnOffset = 1;
+
     ~CLIMenuOutput() override;
 
     void drawRect(int y1, int x1, int y2, int x2);
-
-    void drawTextCenter(const char *text);
-
-    void erase();
-
+    void print(int x, int y, const char *text) const;
 
 public:
     CLIMenuOutput();
 
-    int getRows() override;
+    int getRows() const override;
 
-    int getColumns() override;
+    int getColumns() const override;
 
     void drawMenuTitle(const char *menuTitle) override;
 
     void drawMenuItem(MenuItem* menuItem) override;
+
+    void clearOutput() override;
+
 };
 
 

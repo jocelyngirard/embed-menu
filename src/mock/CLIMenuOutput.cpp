@@ -3,7 +3,6 @@
 //
 
 #include <curses.h>
-#include <iostream>
 #include "CLIMenuOutput.h"
 
 CLIMenuOutput::CLIMenuOutput() {
@@ -11,15 +10,11 @@ CLIMenuOutput::CLIMenuOutput() {
     keypad(stdscr, TRUE);
 }
 
-CLIMenuOutput::~CLIMenuOutput() {}
+CLIMenuOutput::~CLIMenuOutput() = default;
 
-int CLIMenuOutput::getRows() {
-    return 4;
-}
+int CLIMenuOutput::getRows() const { return 4; }
 
-int CLIMenuOutput::getColumns() {
-    return 21;
-}
+int CLIMenuOutput::getColumns() const { return 21; }
 
 void CLIMenuOutput::drawRect(int y1, int x1, int y2, int x2) {
     mvhline(y1, x1, 0, x2 - x1);
@@ -32,23 +27,35 @@ void CLIMenuOutput::drawRect(int y1, int x1, int y2, int x2) {
     mvaddch(y2, x2, ACS_LRCORNER);
 }
 
-void CLIMenuOutput::drawTextCenter(const char *text) {
-    mvprintw((this->getRows() + 1) / 2, static_cast<int>(((this->getColumns() + 1) - std::strlen(text)) / 2), "%s", text);
+void CLIMenuOutput::print(int x, int y, const char *text) const {
+    mvprintw(y + rowOffset, x + columnOffset, "%s", text);
 }
 
-void CLIMenuOutput::erase() {
+void CLIMenuOutput::clearOutput() {
     clear();
     refresh();
+    this->drawRect(0, 0, this->getRows() + rowOffset, this->getColumns() + columnOffset);
 }
 
 void CLIMenuOutput::drawMenuTitle(const char *menuTitle) {
-
+    print(1, 0, menuTitle);
 }
 
-void CLIMenuOutput::drawMenuItem(MenuItem* menuItem) {
-    this->erase();
-    this->drawRect(0, 0, this->getRows() + 1, this->getColumns() + 1);
-    this->drawTextCenter(menuItem->name);
+void CLIMenuOutput::drawMenuItem(MenuItem *menuItem) {
+    bool hasPrevious = menuItem->previous != nullptr;
+    bool hasNext = menuItem->next != nullptr;
+    int index = !hasPrevious ? 1 : !hasNext ? 3 : 2;
+
+    print(1, index, ">");
+    print(3, index, menuItem->name);
+
+    if (hasPrevious) {
+        print(3, index - 1, menuItem->previous->name);
+    }
+
+    if (hasNext) {
+        print(3, index + 1, menuItem->next->name);
+    }
 }
 
 

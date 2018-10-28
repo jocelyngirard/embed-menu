@@ -2,10 +2,12 @@
 #include "mock/CLIMenuOutput.h"
 #include "menu/Menu.h"
 
+int main();
+
 int main() {
-    auto *interactor = new CLIMenuInteractor;
+    MenuInteractor *interactor = new CLIMenuInteractor;
     MenuOutput *output = new CLIMenuOutput;
-    Menu *menu = new Menu;
+    Menu *menu = new Menu("Settings");
 
     menu->add("Aperture");
     menu->add("ISO");
