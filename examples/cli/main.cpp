@@ -1,6 +1,6 @@
-#include "mock/CLIMenuInteractor.h"
-#include "mock/CLIMenuOutput.h"
-#include "menu/Menu.h"
+#include "CLIMenuInteractor.h"
+#include "CLIMenuOutput.h"
+#include "../../src/menu/Menu.h"
 
 int main();
 

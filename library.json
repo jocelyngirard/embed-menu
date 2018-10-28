@@ -1,0 +1,22 @@
+{
+  "name": "EmbedMenu",
+  "keywords": "menu, display, lcd, tft, buttons, encoder, io, control",
+  "description": "Simple, generic menu system usable with any displays.",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/jocelyngirard/embed-menu.git"
+  },
+  "authors":
+  [
+    {
+      "name": "Jocelyn Girard",
+      "email": "jocelyn@erioxyde.com",
+      "url": "http://www.jclngrrd.com",
+      "maintainer": true
+    }
+  ],
+  "version": "0.0.1",
+  "frameworks": "*",
+  "platforms": "*"
+}
