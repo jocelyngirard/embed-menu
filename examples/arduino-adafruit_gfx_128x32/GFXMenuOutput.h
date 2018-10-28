@@ -9,6 +9,8 @@ class GFXMenuOutput : public MenuOutput {
 private:
     ~GFXMenuOutput() override;
 
+    void print(int x, int y, const char *text);
+
 public:
     GFXMenuOutput();
 

@@ -8,6 +8,11 @@ Menu::Menu(const char *name) {
     this->name = name;
 }
 
+void Menu::setCurrent(MenuItem *current) {
+    this->current = current;
+    stateChanged = true;
+}
+
 void Menu::add(const char *name) {
     auto *new_node = new MenuItem;// (struct MenuItem *) malloc(sizeof(struct MenuItem));
 
@@ -29,7 +34,7 @@ void Menu::add(const char *name) {
     new_node->previous = last;
 
     if (current == nullptr) {
-        current = this->menuItems;
+        setCurrent(this->menuItems);
     }
 }
 
@@ -39,14 +44,14 @@ MenuItem *Menu::getCurrent() {
 
 MenuItem *Menu::next() {
     if (current->next != nullptr) {
-        current = current->next;
+        setCurrent(current->next);
     }
     return current;
 }
 
 MenuItem *Menu::previous() {
     if (current->previous != nullptr) {
-        current = current->previous;
+        setCurrent(current->previous);
     }
     return current;
 }
@@ -68,7 +73,10 @@ void Menu::interact(MenuInteractor *interactor) {
 }
 
 void Menu::display(MenuOutput *output) {
-    output->clearOutput();
-    output->drawMenuTitle(this->name);
-    output->drawMenuItem(this->getCurrent());
+    if (stateChanged) {
+        output->clearOutput();
+        output->drawMenuTitle(this->name);
+        output->drawMenuItem(this->getCurrent());
+        stateChanged = false;
+    }
 }

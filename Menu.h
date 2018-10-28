@@ -15,6 +15,9 @@ private:
     const char *name;
     struct MenuItem *menuItems = nullptr;
     MenuItem *current = nullptr;
+    bool stateChanged = false;
+
+    void setCurrent(MenuItem *current);
 
 public:
 

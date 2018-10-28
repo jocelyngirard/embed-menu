@@ -1,5 +1,3 @@
-#include <SPI.h>
-#include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 
@@ -15,6 +13,7 @@ GFXMenuOutput::GFXMenuOutput() {
   display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
   display.setTextSize(1);
   display.setTextColor(WHITE);
+  Serial.begin(9600);
 }
 
 GFXMenuOutput::~GFXMenuOutput() = default;
@@ -32,8 +31,8 @@ void GFXMenuOutput::drawMenuTitle(const char *menuTitle) {
   display.print(menuTitle);
 }
 
-void print(int x, int y, const char* text) {
-  display.setCursor(x,y);
+void GFXMenuOutput::print(int x, int y, const char* text) {
+  display.setCursor(x * 128 / getColumns(), y * 32 / getRows());
   display.print(text);
 }
 
