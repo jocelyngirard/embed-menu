@@ -37,24 +37,23 @@ void CLIMenuOutput::clearOutput() {
     this->drawRect(0, 0, this->getRows() + rowOffset, this->getColumns() + columnOffset);
 }
 
-void CLIMenuOutput::drawMenuTitle(const char *menuTitle) {
-    print(1, 0, menuTitle);
-}
+void CLIMenuOutput::drawMenu(Menu *menuItem) {
 
-void CLIMenuOutput::drawMenuItem(MenuItem *menuItem) {
-    bool hasPrevious = menuItem->previous != nullptr;
-    bool hasNext = menuItem->next != nullptr;
-    int index = !hasPrevious ? 1 : !hasNext ? 3 : 2;
+    print(1, 0, menuItem->name);
+
+    int index = 2;
+
+    Menu *previousMenu = menuItem->subMenu->get(menuItem->index - 1);
+    Menu *selectedMenu = menuItem->subMenu->get(menuItem->index);
+    Menu *nextMenu = menuItem->subMenu->get(menuItem->index + 1);
 
     print(1, index, ">");
-    print(3, index, menuItem->name);
-
-    if (hasPrevious) {
-        print(3, index - 1, menuItem->previous->name);
+    if (previousMenu != nullptr) {
+        print(3, index - 1, previousMenu->name);
     }
-
-    if (hasNext) {
-        print(3, index + 1, menuItem->next->name);
+    print(3, index, selectedMenu->name);
+    if (nextMenu != nullptr) {
+        print(3, index + 1, nextMenu->name);
     }
 }
 

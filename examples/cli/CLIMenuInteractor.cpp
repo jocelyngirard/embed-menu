@@ -14,7 +14,7 @@ Input CLIMenuInteractor::waitInput() {
             return Up;
         case KEY_DOWN:
             return Down;
-        case KEY_ENTER:
+        case KEY_RIGHT:
             return Select;
         default:
             return Other;

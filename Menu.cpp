@@ -6,77 +6,12 @@
 
 Menu::Menu(const char *name) {
     this->name = name;
+    this->subMenu = new LinkedList<Menu *>();
 }
 
-void Menu::setCurrent(MenuItem *current) {
-    this->current = current;
-    stateChanged = true;
+Menu::~Menu() {
 }
 
-void Menu::add(const char *name) {
-    auto *new_node = new MenuItem;// (struct MenuItem *) malloc(sizeof(struct MenuItem));
 
-    new_node->name = name;
-    new_node->next = nullptr;
 
-    if (this->menuItems == nullptr) {
-        new_node->previous = nullptr;
-        this->menuItems = new_node;
-        return;
-    }
 
-    struct MenuItem *last = this->menuItems;
-    while (last->next != nullptr) {
-        last = last->next;
-    }
-
-    last->next = new_node;
-    new_node->previous = last;
-
-    if (current == nullptr) {
-        setCurrent(this->menuItems);
-    }
-}
-
-MenuItem *Menu::getCurrent() {
-    return this->current;
-}
-
-MenuItem *Menu::next() {
-    if (current->next != nullptr) {
-        setCurrent(current->next);
-    }
-    return current;
-}
-
-MenuItem *Menu::previous() {
-    if (current->previous != nullptr) {
-        setCurrent(current->previous);
-    }
-    return current;
-}
-
-void Menu::interact(MenuInteractor *interactor) {
-    switch (interactor->waitInput()) {
-        case Up:
-            this->previous();
-            break;
-        case Down:
-            this->next();
-            break;
-        case Select:
-//                menu->getCurrent();
-            break;
-        default:
-            break;
-    }
-}
-
-void Menu::display(MenuOutput *output) {
-    if (stateChanged) {
-        output->clearOutput();
-        output->drawMenuTitle(this->name);
-        output->drawMenuItem(this->getCurrent());
-        stateChanged = false;
-    }
-}

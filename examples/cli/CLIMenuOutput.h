@@ -25,9 +25,7 @@ public:
 
     int getColumns() const override;
 
-    void drawMenuTitle(const char *menuTitle) override;
-
-    void drawMenuItem(MenuItem* menuItem) override;
+    void drawMenu(Menu *menu) override;
 
     void clearOutput() override;
 
