@@ -4,9 +4,8 @@
 
 #include "MenuRoot.h"
 #include "MenuBack.h"
-
-#include <typeinfo>
-
+#include "MenuAction.h"
+#include "MenuSelect.h"
 
 MenuRoot::MenuRoot(const char *string) : Menu(string) {}
 
@@ -20,7 +19,13 @@ void MenuRoot::interact(MenuInteractor *interactor) {
             break;
         case Select: {
             Menu *selectedMenu = this->currentMenu->subMenu->get(this->currentMenu->index);
-            if (dynamic_cast<MenuBack *>(selectedMenu) != nullptr) {
+            if (auto action = dynamic_cast<MenuAction *>(selectedMenu)) {
+                action->action();
+            } else if (auto selection = dynamic_cast<MenuSelect<int> *>(selectedMenu)) {
+                selection->onValueSelected(selection->value);
+            } else if (auto selection = dynamic_cast<MenuSelect<float> *>(selectedMenu)) {
+                selection->onValueSelected(selection->value);
+            } else if (dynamic_cast<MenuBack *>(selectedMenu) != nullptr) {
                 this->back();
             } else if (selectedMenu->subMenu->size() > 0) {
                 this->currentMenu = selectedMenu;

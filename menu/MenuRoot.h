@@ -6,8 +6,8 @@
 #define MENU_MENUROOT_H
 
 
-#include "io/MenuInteractor.h"
-#include "io/MenuOutput.h"
+#include "../io/MenuInteractor.h"
+#include "../io/MenuOutput.h"
 
 class MenuRoot : public Menu {
 

@@ -6,14 +6,13 @@
 #define MENU_MENUBACK_H
 
 
-#include "Menu.h"
+#include "../Menu.h"
 #include "MenuRoot.h"
 
 class MenuBack : public Menu {
 
 public:
-    void (MenuRoot::*back)();
-    explicit MenuBack(void (MenuRoot::*back)());
+    explicit MenuBack();
 };
 
 

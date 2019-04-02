@@ -9,8 +9,12 @@ add_executable(
         lib/LinkedList.h
         io/MenuOutput.h
         io/MenuInteractor.h
-        Menu.cpp
         examples/cli/main.cpp
         examples/cli/CLIMenuInteractor.cpp
         examples/cli/CLIMenuOutput.cpp
-        MenuRoot.cpp MenuRoot.h MenuBack.cpp MenuBack.h)
+        menu/MenuRoot.cpp
+        menu/MenuBack.cpp
+        menu/MenuAction.cpp
+        menu/MenuSelect.h
+        Menu.cpp
+)

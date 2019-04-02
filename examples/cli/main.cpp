@@ -1,66 +1,68 @@
+#include <iostream>
 #include "CLIMenuInteractor.h"
 #include "CLIMenuOutput.h"
 #include "../../Menu.h"
-#include "../../MenuRoot.h"
-#include "../../MenuBack.h"
+#include "../../menu/MenuRoot.h"
+#include "../../menu/MenuBack.h"
+#include "../../menu/MenuAction.h"
+#include "../../menu/MenuSelect.h"
 
-MenuInteractor *interactor = new CLIMenuInteractor;
-MenuOutput *output = new CLIMenuOutput;
 
-auto *root = new MenuRoot("Settings");
-auto *backMenu = new MenuBack(&MenuRoot::back);
-
-Menu *getApertureMenu() {
-    Menu *menu = new Menu("Aperture");
-    menu->subMenu->add(new Menu("1.2"));
-    menu->subMenu->add(new Menu("1.4"));
-    menu->subMenu->add(new Menu("1.8"));
-    menu->subMenu->add(new Menu("2"));
-    menu->subMenu->add(new Menu("2.8"));
-    menu->subMenu->add(new Menu("4"));
-    menu->subMenu->add(new Menu("5.6"));
-    menu->subMenu->add(new Menu("8"));
-    menu->subMenu->add(new Menu("11"));
-    menu->subMenu->add(new Menu("16"));
-    menu->subMenu->add(backMenu);
-    return menu;
-}
-
-Menu *getISOMenu() {
-    Menu *menu = new Menu("ISO");
-    menu->subMenu->add(new Menu("100"));
-    menu->subMenu->add(new Menu("200"));
-    menu->subMenu->add(new Menu("400"));
-    menu->subMenu->add(new Menu("800"));
-    menu->subMenu->add(new Menu("1600"));
-    menu->subMenu->add(new Menu("3200"));
-    menu->subMenu->add(new Menu("6400"));
-    menu->subMenu->add(backMenu);
-    return menu;
-}
-
-Menu *getIntegrationMenu() {
-    Menu *menu = new Menu("Integ. time");
-    menu->subMenu->add(new Menu("100ms ()"));
-    menu->subMenu->add(new Menu("200ms"));
-    menu->subMenu->add(new Menu("300ms (default)"));
-    menu->subMenu->add(new Menu("400ms"));
-    menu->subMenu->add(new Menu("500ms"));
-    menu->subMenu->add(new Menu("600ms (dim)"));
-    menu->subMenu->add(backMenu);
-    return menu;
+void onApertureSelected(float value) {
+    printf("aperture: %f", value);
 }
 
 int main() {
+    auto *output = new CLIMenuOutput;
+    auto *interactor = new CLIMenuInteractor;
+    auto *backMenu = new MenuBack();
 
+    Menu *apertureMenu = new Menu("Aperture");
+    apertureMenu->subMenu->add(new MenuSelect<float>("1.2", 1.2, onApertureSelected));
+    apertureMenu->subMenu->add(new MenuSelect<float>("1.4", 1.4, onApertureSelected));
+    apertureMenu->subMenu->add(new MenuSelect<float>("1.8", 1.8, onApertureSelected));
+    apertureMenu->subMenu->add(new MenuSelect<float>("2", 2, onApertureSelected));
+    apertureMenu->subMenu->add(new MenuSelect<float>("2.8", 2.8, onApertureSelected));
+    apertureMenu->subMenu->add(new MenuSelect<float>("4", 4, onApertureSelected));
+    apertureMenu->subMenu->add(new MenuSelect<float>("5.6", 5.6, onApertureSelected));
+    apertureMenu->subMenu->add(new MenuSelect<float>("8", 8, onApertureSelected));
+    apertureMenu->subMenu->add(new MenuSelect<float>("11", 11, onApertureSelected));
+    apertureMenu->subMenu->add(new MenuSelect<float>("16", 16, onApertureSelected));
+    apertureMenu->subMenu->add(backMenu);
 
-    root->subMenu->add(getApertureMenu());
-    root->subMenu->add(getISOMenu());
-    root->subMenu->add(getIntegrationMenu());
-    root->subMenu->add(backMenu);
+    auto onISOSelected = [](int value) {};
+
+    Menu *isoMenu = new Menu("ISO");
+    isoMenu->subMenu->add(new MenuSelect<int>("100", 100, onISOSelected));
+    isoMenu->subMenu->add(new MenuSelect<int>("200", 200, onISOSelected));
+    isoMenu->subMenu->add(new MenuSelect<int>("400", 400, onISOSelected));
+    isoMenu->subMenu->add(new MenuSelect<int>("800", 800, onISOSelected));
+    isoMenu->subMenu->add(new MenuSelect<int>("1600", 1600, onISOSelected));
+    isoMenu->subMenu->add(new MenuSelect<int>("3200", 3200, onISOSelected));
+    isoMenu->subMenu->add(new MenuSelect<int>("6400", 6400, onISOSelected));
+    isoMenu->subMenu->add(backMenu);
+
+    auto onIntegrationSelected = [](int value) {};
+
+    Menu *integrationMenu = new Menu("Integ. time");
+    integrationMenu->subMenu->add(new MenuSelect<int>("100ms (bright)", 0x00, onIntegrationSelected));
+    integrationMenu->subMenu->add(new MenuSelect<int>("200ms", 0x01, onIntegrationSelected));
+    integrationMenu->subMenu->add(new MenuSelect<int>("300ms (default)", 0x02, onIntegrationSelected));
+    integrationMenu->subMenu->add(new MenuSelect<int>("400ms", 0x03, onIntegrationSelected));
+    integrationMenu->subMenu->add(new MenuSelect<int>("500ms", 0x04, onIntegrationSelected));
+    integrationMenu->subMenu->add(new MenuSelect<int>("600ms (dim)", 0x05, onIntegrationSelected));
+    integrationMenu->subMenu->add(backMenu);
+
+    auto *root = new MenuRoot("Settings");
+    root->subMenu->add(apertureMenu);
+    root->subMenu->add(isoMenu);
+    root->subMenu->add(integrationMenu);
+    root->subMenu->add(new MenuAction("Quit", []() {
+        system("clear"); // Houuuuu !
+        exit(42);
+    }));
 
     root->display(output);
-
     while (true) {
         root->interact(interactor);
         root->display(output);

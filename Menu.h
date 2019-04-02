@@ -28,11 +28,11 @@ public:
 
     const char *name;
 
-    LinkedList<Menu *> *subMenu;
+    LinkedList<Menu *> *subMenu = new LinkedList<Menu *>();
 
     explicit Menu(const char *name);
 
-    virtual ~Menu();
+    virtual ~Menu() = default;
 };
 
 
